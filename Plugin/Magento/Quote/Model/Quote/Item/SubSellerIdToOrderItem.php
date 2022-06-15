@@ -6,7 +6,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Getnet\SplitExampleMagento\Plugin\Model\Quote\Item;
+namespace Getnet\SplitExampleMagento\Plugin\Magento\Quote\Model\Quote\Item;
 
 class SubSellerIdToOrderItem
 {
