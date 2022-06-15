@@ -125,12 +125,18 @@ class FetchSubSellerIdToSplitPayment
                 SplitPaymentDataRequest::BLOCK_NAME_DESCRIPTION => $item->getQtyOrdered().'x '. $item->getName(),
                 SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT => $this->config->formatPrice($commision),
             ];
+            $pricesBySeller[$sellerId][] = [
+                'total_amount' => $price,
+                'total_commission' => $commision
+            ];
         }
 
         foreach ($productBySeller as $sellerId => $products) {
+            $productAmount = array_sum(array_column($pricesBySeller[$sellerId], 'total_amount'));
+            $productCommission = array_sum(array_column($pricesBySeller[$sellerId], 'total_commission'));
             $result[SplitPaymentDataRequest::BLOCK_NAME_MARKETPLACE_SUBSELLER_PAYMENTS][] = [
                 SplitPaymentDataRequest::BLOCK_NAME_SUB_SELLER_ID => $sellerId,
-                SplitPaymentDataRequest::BLOCK_NAME_SUBSELLER_SALES_AMOUNT =>  100,
+                SplitPaymentDataRequest::BLOCK_NAME_SUBSELLER_SALES_AMOUNT => $this->config->formatPrice($productAmount),
                 SplitPaymentDataRequest::BLOCK_NAME_ORDER_ITEMS => $products['product'],
             ];
         }
