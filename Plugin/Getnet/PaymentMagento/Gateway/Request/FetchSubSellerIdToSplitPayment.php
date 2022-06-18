@@ -110,6 +110,7 @@ class FetchSubSellerIdToSplitPayment
 
         $productBySeller = [];
 
+        /** @var OrderAdapterFactory $orderAdapter * */
         $orderAdapter = $this->orderAdapterFactory->create(
             ['order' => $payment->getOrder()]
         );
@@ -173,8 +174,9 @@ class FetchSubSellerIdToSplitPayment
      *
      * @return array
      */
-    public function getDataForSplit($order) :array
-    {
+    public function getDataForSplit(
+        $order
+    ) :array {
         $data = [];
         
         $storeId = $order->getStoreId();
@@ -241,8 +243,12 @@ class FetchSubSellerIdToSplitPayment
      *
      * @return array
      */
-    public function addSplitShippingInSellerData($order, $shippingAmount, $sellerId, $dataSellers) :array
-    {
+    public function addSplitShippingInSellerData(
+        $order,
+        $shippingAmount,
+        $sellerId,
+        $dataSellers
+    ) :array {
         $shippingProduct = [];
 
         $qtyOrderedBySeller = array_sum(array_column($dataSellers['pricesBySeller'][$sellerId], 'qty'));
