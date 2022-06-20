@@ -1,17 +1,36 @@
 <?php
 /**
- * Copyright © O2TI. All rights reserved.
+ * Copyright © Getnet. All rights reserved.
  *
  * @author    Bruno Elisei <brunoelisei@o2ti.com>
- * See COPYING.txt for license details.
+ * See LICENSE for license details.
  */
 
 namespace Getnet\SplitExampleMagento\Plugin\Magento\Quote\Model\Quote\Item;
 
+use Magento\Quote\Model\Quote\Item\ToOrderItem;
+use Magento\Quote\Model\Quote\Item;
+use Magento\Quote\Model\Quote\Address\Item as AddressItem;
+
+/**
+ * Class Sub Seller Id To Order Item - Add Sub Seller Id in Item.
+ */
 class SubSellerIdToOrderItem
 {
-    public function aroundConvert(\Magento\Quote\Model\Quote\Item\ToOrderItem $subject, callable $proceed, $quoteItem, $data)
-    {
+    /**
+     * Around Convert.
+     *
+     * @param ToOrderItem $subject
+     * @param \Closure $proceed
+     * @param Item|AddressItem $quoteItem
+     * @param array $data
+     */
+    public function aroundConvert(
+        ToOrderItem $subject,
+        \Closure $proceed,
+        $quoteItem,
+        array $data
+    ) {
         $orderItem = $proceed($quoteItem, $data);
 
         $subSellerId = $quoteItem->getGetnetSubSellerId();

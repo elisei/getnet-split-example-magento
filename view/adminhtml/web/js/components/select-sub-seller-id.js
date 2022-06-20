@@ -1,3 +1,9 @@
+/**
+ * Copyright © Getnet. All rights reserved.
+ *
+ * @author    Bruno Elisei <brunoelisei@o2ti.com>
+ * See LICENSE for license details.
+ */
 define([
     'Magento_Ui/js/form/element/ui-select'
 ], function (Select) {

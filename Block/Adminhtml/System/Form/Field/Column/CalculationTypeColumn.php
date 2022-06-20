@@ -1,9 +1,9 @@
 <?php
 /**
- * Copyright © O2TI. All rights reserved.
+ * Copyright © Getnet. All rights reserved.
  *
  * @author    Bruno Elisei <brunoelisei@o2ti.com>
- * See COPYING.txt for license details.
+ * See LICENSE for license details.
  */
 
 declare(strict_types=1);
