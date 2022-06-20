@@ -27,6 +27,16 @@ class Config
     public const XML_PATH_GETNET_SPLIT_COMMISSIONS ='getnet_split/general/split_commisions/commisions';
 
     /**
+     * Guarantor Name
+     */
+    public const XML_PATH_GETNET_SPLIT_GUARANTOR_NAME = 'getnet_split/general/addtional_boleto/guarantor_name';
+
+    /**
+     * Guarantor Document
+     */
+    public const XML_PATH_GETNET_SPLIT_GUARANTOR_DOCUMENT = 'getnet_split/general/addtional_boleto/guarantor_document';
+
+    /**
      * Core store config
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -66,5 +76,35 @@ class Config
             $store
         );
         return $this->json->unserialize($listCommissions);
+    }
+
+    /**
+     * Get Guarantor Name.
+     *
+     * @param   null|string|bool|int|Store $store
+     * @return  string|null
+     */
+    public function getGuarantorName($store = null): ?string
+    {
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_GETNET_SPLIT_GUARANTOR_NAME,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Get Guarantor Document.
+     *
+     * @param   null|string|bool|int|Store $store
+     * @return  string|null
+     */
+    public function getGuarantorDocument($store = null): ?string
+    {
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_GETNET_SPLIT_GUARANTOR_DOCUMENT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }

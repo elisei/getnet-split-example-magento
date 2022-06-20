@@ -14,7 +14,6 @@ use Getnet\PaymentMagento\Gateway\Data\Order\OrderAdapterFactory;
 use Getnet\PaymentMagento\Gateway\Request\SplitPaymentDataRequest;
 use Getnet\PaymentMagento\Gateway\SubjectReader;
 use Getnet\SplitExampleMagento\Helper\Data as SplitHelper;
-use Magento\Framework\Pricing\Helper\Data as PriceHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -42,11 +41,6 @@ class FetchSubSellerIdToSplitPayment
     protected $configCc;
 
     /**
-     * @var PriceHelper
-     */
-    protected $priceHelper;
-
-    /**
      * @var SplitHelper;
      */
     protected $splitHelper;
@@ -60,7 +54,6 @@ class FetchSubSellerIdToSplitPayment
      * @param OrderAdapterFactory  $orderAdapterFactory
      * @param Config               $config
      * @param ConfigCc             $configCc
-     * @param PriceHelper          $checkoutHelper
      * @param SplitHelper          $splitHelper
      * @param ScopeConfigInterface $scopeConfig
      */
@@ -69,7 +62,6 @@ class FetchSubSellerIdToSplitPayment
         OrderAdapterFactory $orderAdapterFactory,
         Config $config,
         ConfigCc $configCc,
-        PriceHelper $checkoutHelper,
         SplitHelper $splitHelper,
         ScopeConfigInterface $scopeConfig
     ) {
@@ -77,7 +69,6 @@ class FetchSubSellerIdToSplitPayment
         $this->orderAdapterFactory = $orderAdapterFactory;
         $this->config = $config;
         $this->configCc = $configCc;
-        $this->priceHelper = $checkoutHelper;
         $this->splitHelper = $splitHelper;
         $this->scopeConfig = $scopeConfig;
     }
@@ -109,7 +100,9 @@ class FetchSubSellerIdToSplitPayment
         $subSellerSettings = [];
 
         $productBySeller = [];
-
+        
+        $installment = 0;
+        
         /** @var OrderAdapterFactory $orderAdapter * */
         $orderAdapter = $this->orderAdapterFactory->create(
             ['order' => $payment->getOrder()]
@@ -124,6 +117,13 @@ class FetchSubSellerIdToSplitPayment
         $payment = $paymentDO->getPayment();
 
         $installment = $payment->getAdditionalInformation('cc_installments') ?: 1;
+
+        if ($payment->getMethod() === 'getnet_paymentmagento_boleto'
+            || $payment->getMethod() === 'getnet_paymentmagento_pix'
+            || $payment->getMethod() === 'getnet_paymentmagento_getpay'
+        ) {
+            $installment = 0;
+        }
 
         $storeId = $order->getStoreId();
         

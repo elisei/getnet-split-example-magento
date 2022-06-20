@@ -28,6 +28,15 @@
                         <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     </field>
                 </group>
+                <group id="addtional_boleto" translate="label comment" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Addtional Data of Boleto</label>
+                     <field id="guarantor_name" translate="label comment" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Guarantor Name</label>
+                    </field>
+                    <field id="guarantor_document" translate="label comment" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Guarantor Document Number</label>
+                    </field>
+                </group>
             </group>
         </section>
     </system>

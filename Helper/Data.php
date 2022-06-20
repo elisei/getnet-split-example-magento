@@ -60,7 +60,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param string $subSellerId
      * @param null|string|bool|int|Store $store
      *
-     * @return array
+     * @return null|array
      */
     public function getSplitCommissionsBySubSellerId(string $subSellerId, $store = null): ?array
     {
@@ -71,5 +71,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
         
         return $commission[$subSellerId];
+    }
+
+    /**
+     * Get Guarantor Name.
+     *
+     * @param null|string|bool|int|Store $store
+     *
+     * @return null|string
+     */
+    public function getAdditionalGuarantorName($store = null): ?string
+    {
+        return $this->configSplit->getGuarantorName($store);
+    }
+
+    /**
+     * Get Guarantor Number.
+     *
+     * @param null|string|bool|int|Store $store
+     *
+     * @return null|string
+     */
+    public function getAdditionalGuarantorNumber($store = null): ?string
+    {
+        return $this->configSplit->getGuarantorDocument($store);
     }
 }
