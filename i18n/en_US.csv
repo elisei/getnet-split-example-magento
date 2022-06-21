@@ -11,7 +11,7 @@ shipping-order-%1,shipping-order-%1
 interest-to-total-%1,interest-to-total-%1
 "Interest for %1 installment in %2 total","Interest for %1 installment in %2 total"
 "Getnet Split","Getnet Split"
-Split,Split
+"Set Split's","Set Split's"
 "<div class='getnet-payment-logo'></div><div class='getnet-payment-byline'><p><b>Pagamentos Digitais Getnet</b> - Split Payment</p><p>Com os Pagamentos Digitais Getnet, você tem acesso a soluções completas para oferecer a melhor experiência de pagamento online. Além disso, você pode contar com uma tecnologia de ponta e segurança em todas as transações.</p></div>","<div class='getnet-payment-logo'></div><div class='getnet-payment-byline'><p><b>Pagamentos Digitais Getnet</b> - Split Payment</p><p>Com os Pagamentos Digitais Getnet, você tem acesso a soluções completas para oferecer a melhor experiência de pagamento online. Além disso, você pode contar com uma tecnologia de ponta e segurança em todas as transações.</p></div>"
 "Technical support available <a href=""https://github.com/getnet-adquirencia/payment-magento/issues/new/choose"">here</a>.","Technical support available <a href=""https://github.com/getnet-adquirencia/payment-magento/issues/new/choose"">here</a>."
 "Sets split commissions","Sets split commissions"

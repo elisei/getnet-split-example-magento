@@ -13,7 +13,7 @@
             <label>Getnet</label>
         </tab>
         <section id="getnet_split" translate="label" sortOrder="1600" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Split</label>
+            <label>Set Split's</label>
             <tab>getnet</tab>
             <resource>Getnet_SplitExampleMagento::config_split</resource>
             <group id="general" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
