@@ -1,0 +1,22 @@
+"Receive the Full Amount","Receive the Full Amount"
+"Retain Full Value","Retain Full Value"
+"Sub Seller","Sub Seller"
+"Commission Percentage","Commission Percentage"
+"Rule for Freight","Rule for Freight"
+"Rule for Interest","Rule for Interest"
+Add,Add
+"Product Name: %1 | Qty: %2","Product Name: %1 | Qty: %2"
+shipping-order-%1,shipping-order-%1
+"Shipping for %1 products","Shipping for %1 products"
+interest-to-total-%1,interest-to-total-%1
+"Interest for %1 installment in %2 total","Interest for %1 installment in %2 total"
+"Getnet Split","Getnet Split"
+Split,Split
+"<div class='getnet-payment-logo'></div><div class='getnet-payment-byline'><p><b>Pagamentos Digitais Getnet</b> - Split Payment</p><p>Com os Pagamentos Digitais Getnet, você tem acesso a soluções completas para oferecer a melhor experiência de pagamento online. Além disso, você pode contar com uma tecnologia de ponta e segurança em todas as transações.</p></div>","<div class='getnet-payment-logo'></div><div class='getnet-payment-byline'><p><b>Pagamentos Digitais Getnet</b> - Split Payment</p><p>Com os Pagamentos Digitais Getnet, você tem acesso a soluções completas para oferecer a melhor experiência de pagamento online. Além disso, você pode contar com uma tecnologia de ponta e segurança em todas as transações.</p></div>"
+"Technical support available <a href=""https://github.com/getnet-adquirencia/payment-magento/issues/new/choose"">here</a>.","Technical support available <a href=""https://github.com/getnet-adquirencia/payment-magento/issues/new/choose"">here</a>."
+"Sets split commissions","Sets split commissions"
+Commisions,Commisions
+"Addtional Data of Boleto","Addtional Data of Boleto"
+"Guarantor Name","Guarantor Name"
+"Guarantor Document Number","Guarantor Document Number"
+"Getnet Sub Seller","Getnet Sub Seller"
