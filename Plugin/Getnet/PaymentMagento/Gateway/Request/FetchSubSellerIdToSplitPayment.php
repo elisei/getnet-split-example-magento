@@ -127,6 +127,10 @@ class FetchSubSellerIdToSplitPayment
 
         $storeId = $order->getStoreId();
         
+        if (!isset($dataSellers['productBySeller'])) {
+            return $result;
+        }
+        
         foreach ($dataSellers['productBySeller'] as $sellerId => $products) {
             $qtyOrderedBySeller = 0;
             $priceShippingBySeller = 0;

@@ -1,9 +1,9 @@
 <?php
 /**
- * Copyright © Getnet. All rights reserved.
+ * Copyright © O2TI. All rights reserved.
  *
  * @author    Bruno Elisei <brunoelisei@o2ti.com>
- * See LICENSE for license details.
+ * See COPYING.txt for license details.
  */
 
 namespace Getnet\SplitExampleMagento\Plugin\Getnet\PaymentMagento\Gateway\Request;
@@ -96,6 +96,20 @@ class AddtionalDataBoletoPaymentDataRequest
         $order = $paymentDO->getOrder();
 
         $storeId = $order->getStoreId();
+
+        $items = $order->getItems();
+
+        $availlable = false;
+
+        foreach ($items as $item) {
+            if ($item->getProduct()->getGetnetSubSellerId()) {
+                $availlable = true;
+            }
+        }
+
+        if (!$availlable) {
+            return $result;
+        }
 
         $typeDocument = 'CPF';
 
