@@ -8,11 +8,11 @@
 
 namespace Getnet\SplitExampleMagento\Block\Adminhtml\System\Form\Field;
 
+use Getnet\SplitExampleMagento\Block\Adminhtml\System\Form\Field\Column\CalculationTypeColumn;
+use Getnet\SplitExampleMagento\Block\Adminhtml\System\Form\Field\Column\SubSellerIdColumn;
 use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
-use Getnet\SplitExampleMagento\Block\Adminhtml\System\Form\Field\Column\SubSellerIdColumn;
-use Getnet\SplitExampleMagento\Block\Adminhtml\System\Form\Field\Column\CalculationTypeColumn;
 
 /**
  * Class SplitCommision - Add List Commision to field.
@@ -45,15 +45,15 @@ class SplitCommision extends AbstractFieldArray
         ]);
 
         $this->addColumn('include_freight', [
-            'label' => __('Rule for Freight'),
+            'label'    => __('Rule for Freight'),
             'renderer' => $this->getFieldCalculationTypeRenderer(),
-            'class' => 'required-entry',
+            'class'    => 'required-entry',
         ]);
 
         $this->addColumn('include_interest', [
-            'label' => __('Rule for Interest'),
+            'label'    => __('Rule for Interest'),
             'renderer' => $this->getFieldCalculationTypeRenderer(),
-            'class' => 'required-entry',
+            'class'    => 'required-entry',
         ]);
 
         $this->_addAfter = false;

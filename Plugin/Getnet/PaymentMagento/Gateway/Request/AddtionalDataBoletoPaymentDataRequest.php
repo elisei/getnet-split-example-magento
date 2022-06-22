@@ -14,8 +14,6 @@ use Getnet\PaymentMagento\Gateway\Request\BoletoPaymentDataRequest;
 use Getnet\PaymentMagento\Gateway\SubjectReader;
 use Getnet\SplitExampleMagento\Helper\Data as SplitHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Payment\Gateway\Request\BuilderInterface;
-use Magento\Store\Model\ScopeInterface;
 
 class AddtionalDataBoletoPaymentDataRequest
 {
@@ -72,8 +70,8 @@ class AddtionalDataBoletoPaymentDataRequest
      * Around method Build.
      *
      * @param BoletoPaymentDataRequest $subject
-     * @param \Closure $proceed
-     * @param array $buildSubject
+     * @param \Closure                 $proceed
+     * @param array                    $buildSubject
      *
      * @return mixin
      */
@@ -124,9 +122,9 @@ class AddtionalDataBoletoPaymentDataRequest
         }
 
         $addtionalData = [
-            self::GUARANTOR_DOCUMENT_TYPE => $typeDocument,
+            self::GUARANTOR_DOCUMENT_TYPE   => $typeDocument,
             self::GUARANTOR_DOCUMENT_NUMBER => $document,
-            self::GUARANTOR_NAME => $name,
+            self::GUARANTOR_NAME            => $name,
         ];
 
         $result[BoletoPaymentDataRequest::METHOD] = array_merge(

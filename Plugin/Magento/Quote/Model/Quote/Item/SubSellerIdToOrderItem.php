@@ -8,9 +8,9 @@
 
 namespace Getnet\SplitExampleMagento\Plugin\Magento\Quote\Model\Quote\Item;
 
-use Magento\Quote\Model\Quote\Item\ToOrderItem;
-use Magento\Quote\Model\Quote\Item;
 use Magento\Quote\Model\Quote\Address\Item as AddressItem;
+use Magento\Quote\Model\Quote\Item;
+use Magento\Quote\Model\Quote\Item\ToOrderItem;
 
 /**
  * Class Sub Seller Id To Order Item - Add Sub Seller Id in Item.
@@ -20,10 +20,10 @@ class SubSellerIdToOrderItem
     /**
      * Around Convert.
      *
-     * @param ToOrderItem $subject
-     * @param \Closure $proceed
+     * @param ToOrderItem      $subject
+     * @param \Closure         $proceed
      * @param Item|AddressItem $quoteItem
-     * @param array $data
+     * @param array            $data
      */
     public function aroundConvert(
         ToOrderItem $subject,

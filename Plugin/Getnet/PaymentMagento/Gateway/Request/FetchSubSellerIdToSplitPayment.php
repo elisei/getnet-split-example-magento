@@ -15,8 +15,6 @@ use Getnet\PaymentMagento\Gateway\Request\SplitPaymentDataRequest;
 use Getnet\PaymentMagento\Gateway\SubjectReader;
 use Getnet\SplitExampleMagento\Helper\Data as SplitHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Payment\Gateway\Request\BuilderInterface;
-use Magento\Store\Model\ScopeInterface;
 
 class FetchSubSellerIdToSplitPayment
 {
@@ -77,8 +75,8 @@ class FetchSubSellerIdToSplitPayment
      * Around method Build.
      *
      * @param SplitPaymentDataRequest $subject
-     * @param \Closure $proceed
-     * @param array $buildSubject
+     * @param \Closure                $proceed
+     * @param array                   $buildSubject
      *
      * @return mixin
      */
@@ -100,9 +98,9 @@ class FetchSubSellerIdToSplitPayment
         $subSellerSettings = [];
 
         $productBySeller = [];
-        
+
         $installment = 0;
-        
+
         /** @var OrderAdapterFactory $orderAdapter * */
         $orderAdapter = $this->orderAdapterFactory->create(
             ['order' => $payment->getOrder()]
@@ -126,18 +124,18 @@ class FetchSubSellerIdToSplitPayment
         }
 
         $storeId = $order->getStoreId();
-        
+
         if (!isset($dataSellers['productBySeller'])) {
             return $result;
         }
-        
+
         foreach ($dataSellers['productBySeller'] as $sellerId => $products) {
             $qtyOrderedBySeller = 0;
             $priceShippingBySeller = 0;
             $productAmount = array_sum(array_column($dataSellers['pricesBySeller'][$sellerId], 'totalAmount'));
 
             $shippingProduct = $this->addSplitShippingInSellerData($order, $shippingAmount, $sellerId, $dataSellers);
-            
+
             $products['product'][] = $shippingProduct['products'][$sellerId];
 
             $priceShippingBySeller = $shippingProduct['amount'][$sellerId];
@@ -161,10 +159,9 @@ class FetchSubSellerIdToSplitPayment
             }
 
             $result[SplitPaymentDataRequest::BLOCK_NAME_MARKETPLACE_SUBSELLER_PAYMENTS][] = [
-                SplitPaymentDataRequest::BLOCK_NAME_SUB_SELLER_ID => $sellerId,
-                SplitPaymentDataRequest::BLOCK_NAME_SUBSELLER_SALES_AMOUNT =>
-                    $this->config->formatPrice($commissionAmount),
-                SplitPaymentDataRequest::BLOCK_NAME_ORDER_ITEMS => $products['product'],
+                SplitPaymentDataRequest::BLOCK_NAME_SUB_SELLER_ID          => $sellerId,
+                SplitPaymentDataRequest::BLOCK_NAME_SUBSELLER_SALES_AMOUNT => $this->config->formatPrice($commissionAmount),
+                SplitPaymentDataRequest::BLOCK_NAME_ORDER_ITEMS            => $products['product'],
             ];
         }
 
@@ -172,7 +169,7 @@ class FetchSubSellerIdToSplitPayment
     }
 
     /**
-     * Get Data for Split
+     * Get Data for Split.
      *
      * @param OrderAdapterFactory $order
      *
@@ -180,9 +177,9 @@ class FetchSubSellerIdToSplitPayment
      */
     public function getDataForSplit(
         $order
-    ) :array {
+    ): array {
         $data = [];
-        
+
         $storeId = $order->getStoreId();
 
         $items = $order->getItems();
@@ -190,7 +187,7 @@ class FetchSubSellerIdToSplitPayment
         $qtyOrderedInOrder = 0;
 
         foreach ($items as $item) {
-            
+
             // If product is configurable not apply
             if ($item->getParentItem()) {
                 continue;
@@ -201,16 +198,16 @@ class FetchSubSellerIdToSplitPayment
             }
 
             $sellerId = $item->getProduct()->getGetnetSubSellerId();
-            $price =  $item->getPrice() * $item->getQtyOrdered();
+            $price = $item->getPrice() * $item->getQtyOrdered();
 
             $rulesToSplit = $this->splitHelper->getSplitCommissionsBySubSellerId($sellerId, $storeId);
-            $commissionPercentage = $rulesToSplit["commission_percentage"] / 100;
+            $commissionPercentage = $rulesToSplit['commission_percentage'] / 100;
             $commissionPerProduct = $price * $commissionPercentage;
 
             $data['productBySeller'][$sellerId]['product'][] = [
-                SplitPaymentDataRequest::BLOCK_NAME_AMOUNT => $this->config->formatPrice($price),
-                SplitPaymentDataRequest::BLOCK_NAME_CURRENCY => $order->getCurrencyCode(),
-                SplitPaymentDataRequest::BLOCK_NAME_ID => $item->getSku(),
+                SplitPaymentDataRequest::BLOCK_NAME_AMOUNT      => $this->config->formatPrice($price),
+                SplitPaymentDataRequest::BLOCK_NAME_CURRENCY    => $order->getCurrencyCode(),
+                SplitPaymentDataRequest::BLOCK_NAME_ID          => $item->getSku(),
                 SplitPaymentDataRequest::BLOCK_NAME_DESCRIPTION => __(
                     'Product Name: %1 | Qty: %2',
                     $item->getName(),
@@ -220,9 +217,9 @@ class FetchSubSellerIdToSplitPayment
             ];
 
             $data['pricesBySeller'][$sellerId][] = [
-                'totalAmount' => $price,
+                'totalAmount'     => $price,
                 'totalCommission' => $commissionPerProduct,
-                'qty' => $item->getQtyOrdered(),
+                'qty'             => $item->getQtyOrdered(),
             ];
 
             $data['subSellerSettings'][$sellerId] = [
@@ -238,12 +235,12 @@ class FetchSubSellerIdToSplitPayment
     }
 
     /**
-     * Add Split Shipping in Seller Data
+     * Add Split Shipping in Seller Data.
      *
      * @param OrderAdapterFactory $order
-     * @param float $shippingAmount
-     * @param string $sellerId
-     * @param array $dataSellers
+     * @param float               $shippingAmount
+     * @param string              $sellerId
+     * @param array               $dataSellers
      *
      * @return array
      */
@@ -252,7 +249,7 @@ class FetchSubSellerIdToSplitPayment
         $shippingAmount,
         $sellerId,
         $dataSellers
-    ) :array {
+    ): array {
         $shippingProduct = [];
 
         $qtyOrderedBySeller = array_sum(array_column($dataSellers['pricesBySeller'][$sellerId], 'qty'));
@@ -262,12 +259,11 @@ class FetchSubSellerIdToSplitPayment
         $rule = $dataSellers['subSellerSettings'][$sellerId]['commission'];
 
         $shippingProduct['products'][$sellerId] = [
-            SplitPaymentDataRequest::BLOCK_NAME_AMOUNT => $this->config->formatPrice($priceShippingBySeller),
-            SplitPaymentDataRequest::BLOCK_NAME_CURRENCY => $order->getCurrencyCode(),
-            SplitPaymentDataRequest::BLOCK_NAME_ID => __('shipping-order-%1', $order->getOrderIncrementId()),
+            SplitPaymentDataRequest::BLOCK_NAME_AMOUNT      => $this->config->formatPrice($priceShippingBySeller),
+            SplitPaymentDataRequest::BLOCK_NAME_CURRENCY    => $order->getCurrencyCode(),
+            SplitPaymentDataRequest::BLOCK_NAME_ID          => __('shipping-order-%1', $order->getOrderIncrementId()),
             SplitPaymentDataRequest::BLOCK_NAME_DESCRIPTION => __('Shipping for %1 products', $qtyOrderedBySeller),
-            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT =>
-            ($rule['include_freight']) ? $this->config->formatPrice($priceShippingBySeller) : null,
+            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT  => ($rule['include_freight']) ? $this->config->formatPrice($priceShippingBySeller) : null,
         ];
 
         $shippingProduct['amount'][$sellerId] = $priceShippingBySeller;
@@ -276,12 +272,12 @@ class FetchSubSellerIdToSplitPayment
     }
 
     /**
-     * Add Split Interest In Seller Data
+     * Add Split Interest In Seller Data.
      *
-     * @param string $sellerId
-     * @param array $dataSellers
-     * @param int $installment
-     * @param float $commissionAmount
+     * @param string   $sellerId
+     * @param array    $dataSellers
+     * @param int      $installment
+     * @param float    $commissionAmount
      * @param int|null $storeId
      *
      * @return array
@@ -292,25 +288,25 @@ class FetchSubSellerIdToSplitPayment
         int $installment,
         float $commissionAmount,
         int $storeId = null
-    ) :array {
+    ): array {
         $rule = $dataSellers['subSellerSettings'][$sellerId]['commission'];
 
         $amountInterest = $this->configCc->getInterestToAmount($installment, $commissionAmount, $storeId);
 
         $amountInterestProduct['products'][$sellerId] = [
-            SplitPaymentDataRequest::BLOCK_NAME_AMOUNT => $this->config->formatPrice($amountInterest),
-            SplitPaymentDataRequest::BLOCK_NAME_CURRENCY => 'BRL',
-            SplitPaymentDataRequest::BLOCK_NAME_ID => __('interest-to-total-%1', $commissionAmount),
+            SplitPaymentDataRequest::BLOCK_NAME_AMOUNT      => $this->config->formatPrice($amountInterest),
+            SplitPaymentDataRequest::BLOCK_NAME_CURRENCY    => 'BRL',
+            SplitPaymentDataRequest::BLOCK_NAME_ID          => __('interest-to-total-%1', $commissionAmount),
             SplitPaymentDataRequest::BLOCK_NAME_DESCRIPTION => __(
                 'Interest for %1 installment in %2 total',
                 $installment,
                 $commissionAmount
             ),
-            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT =>
-            ($rule['include_interest']) ? $this->config->formatPrice($amountInterest) : null,
+            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT => ($rule['include_interest']) ? $this->config->formatPrice($amountInterest) : null,
         ];
 
         $amountInterestProduct['amount'][$sellerId] = $amountInterest;
+
         return $amountInterestProduct;
     }
 }

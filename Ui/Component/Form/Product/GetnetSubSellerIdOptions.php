@@ -9,14 +9,13 @@
 namespace Getnet\SplitExampleMagento\Ui\Component\Form\Product;
 
 use Getnet\SubSellerMagento\Api\SubSellerRepositoryInterface;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 
 class GetnetSubSellerIdOptions implements OptionSourceInterface
 {
-
     /**
      * @var SubSellerRepositoryInterface
      */
@@ -31,7 +30,7 @@ class GetnetSubSellerIdOptions implements OptionSourceInterface
      * @var FilterBuilder
      */
     protected $filterBuilder;
-    
+
     /**
      * @var RequestInterface
      */
@@ -45,10 +44,10 @@ class GetnetSubSellerIdOptions implements OptionSourceInterface
     /**
      * Constructor.
      *
-     * @param SubSellerRepositoryInterface  $subSellerRepository
-     * @param SearchCriteriaBuilder         $searchCriteria
-     * @param FilterBuilder                 $filterBuilder
-     * @param RequestInterface              $request
+     * @param SubSellerRepositoryInterface $subSellerRepository
+     * @param SearchCriteriaBuilder        $searchCriteria
+     * @param FilterBuilder                $filterBuilder
+     * @param RequestInterface             $request
      */
     public function __construct(
         SubSellerRepositoryInterface $subSellerRepository,
@@ -83,7 +82,7 @@ class GetnetSubSellerIdOptions implements OptionSourceInterface
             $sellers = [];
             $searchCriteria = $this->searchCriteria->addFilters(
                 [
-                    $this->filterBuilder->setField('id_ext')->setValue(null)->setConditionType('neq')->create()
+                    $this->filterBuilder->setField('id_ext')->setValue(null)->setConditionType('neq')->create(),
                 ]
             )->create();
             $subSellers = $this->subSellerRepository->getList($searchCriteria);
@@ -96,11 +95,12 @@ class GetnetSubSellerIdOptions implements OptionSourceInterface
                         $subSeller->getLegalName(),
                         $subSeller->getCode(),
                         $subSeller->getEmail()
-                    )
+                    ),
                 ];
             }
             $this->subSellerIdTree = $sellers;
         }
+
         return $this->subSellerIdTree;
     }
 }
