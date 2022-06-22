@@ -74,6 +74,7 @@ class AddtionalDataBoletoPaymentDataRequest
      * @param array                    $buildSubject
      *
      * @return mixin
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundBuild(
         BoletoPaymentDataRequest $subject,
@@ -85,11 +86,6 @@ class AddtionalDataBoletoPaymentDataRequest
         $paymentDO = $this->subjectReader->readPayment($buildSubject);
 
         $payment = $paymentDO->getPayment();
-
-        /** @var OrderAdapterFactory $orderAdapter * */
-        $orderAdapter = $this->orderAdapterFactory->create(
-            ['order' => $payment->getOrder()]
-        );
 
         $order = $paymentDO->getOrder();
 
