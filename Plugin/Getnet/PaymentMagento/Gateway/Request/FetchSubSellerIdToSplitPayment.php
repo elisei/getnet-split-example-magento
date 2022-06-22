@@ -16,6 +16,11 @@ use Getnet\PaymentMagento\Gateway\SubjectReader;
 use Getnet\SplitExampleMagento\Helper\Data as SplitHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
+/**
+ * Class Fetch Sub Seller Id To Split Payment - add Sub Seller in Transaction.
+ *
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class FetchSubSellerIdToSplitPayment
 {
     /**
