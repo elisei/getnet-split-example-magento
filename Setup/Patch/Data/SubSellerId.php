@@ -8,26 +8,25 @@
 
 namespace Getnet\SplitExampleMagento\Setup\Patch\Data;
 
-use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
- 
+
 class SubSellerId implements DataPatchInterface
 {
     /**
      * @var ModuleDataSetupInterface
      */
     private $_moduleDataSetup;
- 
+
     /**
      * @var EavSetupFactory
      */
     private $_eavSetupFactory;
- 
+
     /**
      * @param ModuleDataSetupInterface $moduleDataSetup
-     * @param EavSetupFactory $eavSetupFactory
+     * @param EavSetupFactory          $eavSetupFactory
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
@@ -36,7 +35,7 @@ class SubSellerId implements DataPatchInterface
         $this->moduleDataSetup = $moduleDataSetup;
         $this->eavSetupFactory = $eavSetupFactory;
     }
- 
+
     /**
      * @inheritdoc
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -50,7 +49,7 @@ class SubSellerId implements DataPatchInterface
             \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
             \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
             \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
-            \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
+            \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
         ];
         $productTypes = join(',', $productTypes);
 
@@ -58,32 +57,32 @@ class SubSellerId implements DataPatchInterface
             \Magento\Catalog\Model\Product::ENTITY,
             'getnet_sub_seller_id',
             [
-                'type' => 'varchar',
-                'backend' => '',
-                'frontend' => '',
-                'label' => 'Getnet Sub Seller',
-                'input' => 'text',
-                'class' => '',
-                'source' => '',
-                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
-                'visible' => true,
-                'required' => false,
-                'user_defined' => true,
-                'default' => '',
-                'searchable' => false,
-                'filterable' => false,
-                'comparable' => false,
-                'visible_on_front' => false,
+                'type'                    => 'varchar',
+                'backend'                 => '',
+                'frontend'                => '',
+                'label'                   => 'Getnet Sub Seller',
+                'input'                   => 'text',
+                'class'                   => '',
+                'source'                  => '',
+                'global'                  => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                'visible'                 => true,
+                'required'                => false,
+                'user_defined'            => true,
+                'default'                 => '',
+                'searchable'              => false,
+                'filterable'              => false,
+                'comparable'              => false,
+                'visible_on_front'        => false,
                 'used_in_product_listing' => true,
-                'unique' => false,
-                'apply_to' => $productTypes
+                'unique'                  => false,
+                'apply_to'                => $productTypes,
             ]
         );
 
         $entityTypeId = $eavSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
         $attributeSetIds = $eavSetup->getAllAttributeSetIds($entityTypeId);
         foreach ($attributeSetIds as $attributeSetId) {
-            $groupId = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, "General");
+            $groupId = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, 'General');
             $eavSetup->addAttributeToGroup(
                 $entityTypeId,
                 $attributeSetId,

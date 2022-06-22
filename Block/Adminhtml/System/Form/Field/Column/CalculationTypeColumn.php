@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Getnet\SplitExampleMagento\Block\Adminhtml\System\Form\Field\Column;
 
-use Magento\Framework\View\Element\Context;
 use Magento\Framework\View\Element\Html\Select;
 
 /**
@@ -88,7 +87,7 @@ class CalculationTypeColumn extends Select
                 'label' => __('Retain Full Value'),
             ],
         ];
-        
+
         return $typeCalc;
     }
 }

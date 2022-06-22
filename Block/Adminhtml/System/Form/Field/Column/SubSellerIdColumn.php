@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace Getnet\SplitExampleMagento\Block\Adminhtml\System\Form\Field\Column;
 
 use Getnet\SubSellerMagento\Api\SubSellerRepositoryInterface;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\View\Element\Context;
 use Magento\Framework\View\Element\Html\Select;
 
@@ -39,11 +39,11 @@ class SubSellerIdColumn extends Select
     /**
      * Constructor.
      *
-     * @param Context                       $context
-     * @param SubSellerRepositoryInterface  $subSellerRepository
-     * @param SearchCriteriaBuilder         $searchCriteria
-     * @param FilterBuilder                 $filterBuilder
-     * @param array                         $data
+     * @param Context                      $context
+     * @param SubSellerRepositoryInterface $subSellerRepository
+     * @param SearchCriteriaBuilder        $searchCriteria
+     * @param FilterBuilder                $filterBuilder
+     * @param array                        $data
      */
     public function __construct(
         Context $context,
@@ -106,11 +106,11 @@ class SubSellerIdColumn extends Select
         $sellers = [];
         $sellers[] = [
             'value' => 'any',
-            'label' => 'Any Sub Seller'
+            'label' => 'Any Sub Seller',
         ];
         $searchCriteria = $this->searchCriteria->addFilters(
             [
-                $this->filterBuilder->setField('status')->setValue(4)->setConditionType('neq')->create()
+                $this->filterBuilder->setField('status')->setValue(4)->setConditionType('neq')->create(),
             ]
         )->create();
         $subSellers = $this->subSellerRepository->getList($searchCriteria);
@@ -126,6 +126,7 @@ class SubSellerIdColumn extends Select
                 ),
             ];
         }
+
         return $sellers;
     }
 }
