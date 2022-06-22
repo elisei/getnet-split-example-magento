@@ -18,8 +18,6 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**
  * Class Fetch Sub Seller Id To Split Payment - add Sub Seller in Transaction.
- *
- * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class FetchSubSellerIdToSplitPayment
 {
@@ -79,12 +77,12 @@ class FetchSubSellerIdToSplitPayment
     /**
      * Around method Build.
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param SplitPaymentDataRequest $subject
      * @param \Closure                $proceed
      * @param array                   $buildSubject
      *
      * @return mixin
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundBuild(
         SplitPaymentDataRequest $subject,
