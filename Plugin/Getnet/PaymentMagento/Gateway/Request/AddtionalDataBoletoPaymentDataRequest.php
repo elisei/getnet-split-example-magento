@@ -85,8 +85,6 @@ class AddtionalDataBoletoPaymentDataRequest
 
         $paymentDO = $this->subjectReader->readPayment($buildSubject);
 
-        $payment = $paymentDO->getPayment();
-
         $order = $paymentDO->getOrder();
 
         $storeId = $order->getStoreId();

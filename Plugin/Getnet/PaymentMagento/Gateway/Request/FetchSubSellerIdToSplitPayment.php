@@ -79,6 +79,7 @@ class FetchSubSellerIdToSplitPayment
      * @param array                   $buildSubject
      *
      * @return mixin
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundBuild(
         SplitPaymentDataRequest $subject,
@@ -92,12 +93,6 @@ class FetchSubSellerIdToSplitPayment
         $payment = $paymentDO->getPayment();
 
         $result = [];
-
-        $pricesBySeller = [];
-
-        $subSellerSettings = [];
-
-        $productBySeller = [];
 
         $installment = 0;
 
@@ -130,7 +125,6 @@ class FetchSubSellerIdToSplitPayment
         }
 
         foreach ($dataSellers['productBySeller'] as $sellerId => $products) {
-            $qtyOrderedBySeller = 0;
             $priceShippingBySeller = 0;
             $productAmount = array_sum(array_column($dataSellers['pricesBySeller'][$sellerId], 'totalAmount'));
 
@@ -160,7 +154,8 @@ class FetchSubSellerIdToSplitPayment
 
             $result[SplitPaymentDataRequest::BLOCK_NAME_MARKETPLACE_SUBSELLER_PAYMENTS][] = [
                 SplitPaymentDataRequest::BLOCK_NAME_SUB_SELLER_ID          => $sellerId,
-                SplitPaymentDataRequest::BLOCK_NAME_SUBSELLER_SALES_AMOUNT => $this->config->formatPrice($commissionAmount),
+                SplitPaymentDataRequest::BLOCK_NAME_SUBSELLER_SALES_AMOUNT =>
+                    $this->config->formatPrice($commissionAmount),
                 SplitPaymentDataRequest::BLOCK_NAME_ORDER_ITEMS            => $products['product'],
             ];
         }
@@ -263,7 +258,8 @@ class FetchSubSellerIdToSplitPayment
             SplitPaymentDataRequest::BLOCK_NAME_CURRENCY    => $order->getCurrencyCode(),
             SplitPaymentDataRequest::BLOCK_NAME_ID          => __('shipping-order-%1', $order->getOrderIncrementId()),
             SplitPaymentDataRequest::BLOCK_NAME_DESCRIPTION => __('Shipping for %1 products', $qtyOrderedBySeller),
-            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT  => ($rule['include_freight']) ? $this->config->formatPrice($priceShippingBySeller) : null,
+            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT  =>
+                ($rule['include_freight']) ? $this->config->formatPrice($priceShippingBySeller) : null,
         ];
 
         $shippingProduct['amount'][$sellerId] = $priceShippingBySeller;
@@ -302,7 +298,8 @@ class FetchSubSellerIdToSplitPayment
                 $installment,
                 $commissionAmount
             ),
-            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT => ($rule['include_interest']) ? $this->config->formatPrice($amountInterest) : null,
+            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT =>
+                ($rule['include_interest']) ? $this->config->formatPrice($amountInterest) : null,
         ];
 
         $amountInterestProduct['amount'][$sellerId] = $amountInterest;

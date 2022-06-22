@@ -17,12 +17,12 @@ class SubSellerId implements DataPatchInterface
     /**
      * @var ModuleDataSetupInterface
      */
-    private $_moduleDataSetup;
+    protected $moduleDataSetup;
 
     /**
      * @var EavSetupFactory
      */
-    private $_eavSetupFactory;
+    protected $eavSetupFactory;
 
     /**
      * @param ModuleDataSetupInterface $moduleDataSetup
