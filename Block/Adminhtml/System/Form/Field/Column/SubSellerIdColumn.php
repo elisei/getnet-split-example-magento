@@ -106,7 +106,7 @@ class SubSellerIdColumn extends Select
         $sellers = [];
         $sellers[] = [
             'value' => 'any',
-            'label' => 'Any Sub Seller',
+            'label' => __('Any Sub Seller'),
         ];
         $searchCriteria = $this->searchCriteria->addFilters(
             [
@@ -119,7 +119,7 @@ class SubSellerIdColumn extends Select
             $sellers[] = [
                 'value' => $subSeller->getIdExt(),
                 'label' => sprintf(
-                    '%s - Código Interno: %s - Email: %s',
+                    '%s - Code: %s - Email: %s',
                     $subSeller->getLegalName(),
                     $subSeller->getCode(),
                     $subSeller->getEmail()

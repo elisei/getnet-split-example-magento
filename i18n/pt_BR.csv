@@ -1,9 +1,10 @@
 "Receive the Full Amount","Receberá todo o valor"
 "Retain Full Value","Não recebe o valor"
+"Any Sub Seller","Qualquer Sub Seller"
 "Sub Seller","Sub Seller"
-"Commission Percentage","Percentual de Comissão"
-"Rule for Freight","Regra para Frete"
-"Rule for Interest","Regra para Juros"
+"Percentage he receives","Percentual que receberá"
+"Receiving Freight","Recebimento do Frete"
+"Receiving Interest","Recebimento do Juros"
 Add,Adicionar
 "Product Name: %1 | Qty: %2","Nome: %1 | Qtd: %2"
 shipping-order-%1,shipping-order-%1

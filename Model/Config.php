@@ -80,6 +80,10 @@ class Config
             $store
         );
 
+        if (is_array($listCommissions)) {
+            return $listCommissions;
+        }
+
         return $this->json->unserialize($listCommissions);
     }
 

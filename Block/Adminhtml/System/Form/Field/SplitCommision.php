@@ -40,18 +40,18 @@ class SplitCommision extends AbstractFieldArray
         ]);
 
         $this->addColumn('commission_percentage', [
-            'label' => __('Commission Percentage'),
-            'class' => 'required-entry validate-number validate-greater-than-zero admin__control-text',
+            'label' => __('Percentage he receives'),
+            'class' => 'required-entry admin__control-text',
         ]);
 
         $this->addColumn('include_freight', [
-            'label'    => __('Rule for Freight'),
+            'label'    => __('Receiving Freight'),
             'renderer' => $this->getFieldCalculationTypeRenderer(),
             'class'    => 'required-entry',
         ]);
 
         $this->addColumn('include_interest', [
-            'label'    => __('Rule for Interest'),
+            'label'    => __('Receiving Interest'),
             'renderer' => $this->getFieldCalculationTypeRenderer(),
             'class'    => 'required-entry',
         ]);
