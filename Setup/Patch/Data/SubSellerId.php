@@ -61,7 +61,7 @@ class SubSellerId implements DataPatchInterface
                 'backend'                 => '',
                 'frontend'                => '',
                 'label'                   => 'Getnet Sub Seller',
-                'input'                   => 'text',
+                'input'                   => 'hidden',
                 'class'                   => '',
                 'source'                  => '',
                 'global'                  => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
