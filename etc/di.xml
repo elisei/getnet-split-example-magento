@@ -20,4 +20,9 @@
         <plugin name="sub_seller_addtional_data"
             type="Getnet\SplitExampleMagento\Plugin\Getnet\PaymentMagento\Gateway\Request\AddtionalDataBoletoPaymentDataRequest" />
     </type>
+    <type name="Getnet\PaymentMagento\Gateway\Request\RefundRequest">
+        <plugin name="sub_seller_addtional_data"
+            type="Getnet\SplitExampleMagento\Plugin\Getnet\PaymentMagento\Gateway\Request\AddtionalDataRefundRequest" />
+    </type>
+    
 </config>

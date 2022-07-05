@@ -12,6 +12,9 @@ use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 
+/**
+ * Class Sub Seller Id - add attribute for product.
+ */
 class SubSellerId implements DataPatchInterface
 {
     /**

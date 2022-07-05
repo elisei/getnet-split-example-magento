@@ -15,6 +15,7 @@ use Getnet\PaymentMagento\Gateway\Request\SplitPaymentDataRequest;
 use Getnet\PaymentMagento\Gateway\SubjectReader;
 use Getnet\SplitExampleMagento\Helper\Data as SplitHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Serialize\Serializer\Json;
 
 /**
  * Class Fetch Sub Seller Id To Split Payment - add Sub Seller in Transaction.
@@ -51,11 +52,17 @@ class FetchSubSellerIdToSplitPayment
     protected $scopeConfig;
 
     /**
+     * @var Json
+     */
+    protected $json;
+
+    /**
      * @param SubjectReader        $subjectReader
      * @param OrderAdapterFactory  $orderAdapterFactory
      * @param Config               $config
      * @param ConfigCc             $configCc
      * @param SplitHelper          $splitHelper
+     * @param Json                 $json
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
@@ -64,6 +71,7 @@ class FetchSubSellerIdToSplitPayment
         Config $config,
         ConfigCc $configCc,
         SplitHelper $splitHelper,
+        Json $json,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->subjectReader = $subjectReader;
@@ -71,6 +79,7 @@ class FetchSubSellerIdToSplitPayment
         $this->config = $config;
         $this->configCc = $configCc;
         $this->splitHelper = $splitHelper;
+        $this->json = $json;
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -96,6 +105,8 @@ class FetchSubSellerIdToSplitPayment
         $payment = $paymentDO->getPayment();
 
         $result = [];
+
+        $marketplace = [];
 
         $installment = 0;
 
@@ -161,7 +172,18 @@ class FetchSubSellerIdToSplitPayment
                     $this->config->formatPrice($commissionAmount),
                 SplitPaymentDataRequest::BLOCK_NAME_ORDER_ITEMS            => $products['product'],
             ];
+            
         }
+
+        foreach ($result[SplitPaymentDataRequest::BLOCK_NAME_MARKETPLACE_SUBSELLER_PAYMENTS] as $sellers) {
+            $seller = $sellers[SplitPaymentDataRequest::BLOCK_NAME_SUB_SELLER_ID];
+            $marketplace[$seller] = $sellers[SplitPaymentDataRequest::BLOCK_NAME_ORDER_ITEMS];
+        }
+
+        $payment->setAdditionalInformation(
+            'marketplace',
+            $this->json->serialize($marketplace)
+        );
 
         return $result;
     }
@@ -211,12 +233,13 @@ class FetchSubSellerIdToSplitPayment
                     $item->getName(),
                     $item->getQtyOrdered()
                 ),
-                SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT => $this->config->formatPrice($commissionPerProduct),
+                SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT => $this->config->formatPrice(
+                    $price - $commissionPerProduct
+                ),
             ];
 
             $data['pricesBySeller'][$sellerId][] = [
                 'totalAmount'     => $price,
-                'totalCommission' => $commissionPerProduct,
                 'qty'             => $item->getQtyOrdered(),
             ];
 
@@ -262,7 +285,7 @@ class FetchSubSellerIdToSplitPayment
             SplitPaymentDataRequest::BLOCK_NAME_ID          => __('shipping-order-%1', $order->getOrderIncrementId()),
             SplitPaymentDataRequest::BLOCK_NAME_DESCRIPTION => __('Shipping for %1 products', $qtyOrderedBySeller),
             SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT  =>
-                ($rule['include_freight']) ? $this->config->formatPrice($priceShippingBySeller) : null,
+                ($rule['include_freight']) ? 0 : $this->config->formatPrice($priceShippingBySeller),
         ];
 
         $shippingProduct['amount'][$sellerId] = $priceShippingBySeller;
@@ -302,7 +325,7 @@ class FetchSubSellerIdToSplitPayment
                 $commissionAmount
             ),
             SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT =>
-                ($rule['include_interest']) ? $this->config->formatPrice($amountInterest) : null,
+                ($rule['include_interest']) ? 0 :  $this->config->formatPrice($amountInterest),
         ];
 
         $amountInterestProduct['amount'][$sellerId] = $amountInterest;

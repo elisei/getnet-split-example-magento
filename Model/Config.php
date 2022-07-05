@@ -5,13 +5,6 @@
  * @author    Bruno Elisei <brunoelisei@o2ti.com>
  * See LICENSE for license details.
  */
-
-/**
- * Configuration paths storage.
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-
 namespace Getnet\SplitExampleMagento\Model;
 
 use Magento\Framework\Serialize\Serializer\Json;
@@ -38,6 +31,21 @@ class Config
      * Guarantor Document.
      */
     public const XML_PATH_GETNET_SPLIT_GUARANTOR_DOCUMENT = 'getnet_split/general/addtional_boleto/guarantor_document';
+
+    /**
+     * Type Release
+     */
+    public const XML_PATH_GETNET_SPLIT_TYPE_RELEASE = 'getnet_split/general/payment_release/type_release';
+
+    /**
+     * Cron BY
+     */
+    public const XML_PATH_GETNET_SPLIT_CRON_BY = 'getnet_split/general/payment_release/cron_by';
+
+    /**
+     * Release Days
+     */
+    public const XML_PATH_GETNET_SPLIT_CRON_DAYS = 'getnet_split/general/payment_release/release_day';
 
     /**
      * Core store config.
@@ -114,6 +122,54 @@ class Config
     {
         return $this->_scopeConfig->getValue(
             self::XML_PATH_GETNET_SPLIT_GUARANTOR_DOCUMENT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Get Type Release.
+     *
+     * @param null|string|bool|int|Store $store
+     *
+     * @return string|null
+     */
+    public function getTypeRelease($store = null): ?string
+    {
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_GETNET_SPLIT_TYPE_RELEASE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Get Cron By.
+     *
+     * @param null|string|bool|int|Store $store
+     *
+     * @return string|null
+     */
+    public function getCronBy($store = null): ?string
+    {
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_GETNET_SPLIT_CRON_BY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Get Release Day.
+     *
+     * @param null|string|bool|int|Store $store
+     *
+     * @return string|null
+     */
+    public function getCronDays($store = null): ?string
+    {
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_GETNET_SPLIT_CRON_DAYS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
