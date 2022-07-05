@@ -99,4 +99,28 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         return $this->configSplit->getGuarantorDocument($store);
     }
+
+    /**
+     * Get Type Release.
+     *
+     * @param null|string|bool|int|Store $store
+     *
+     * @return null|string
+     */
+    public function getTypeRelease($store = null): ?string
+    {
+        return $this->configSplit->getTypeRelease($store);
+    }
+
+    /**
+     * Get Days of Release.
+     *
+     * @param null|string|bool|int|Store $store
+     *
+     * @return null|string
+     */
+    public function getDaysOfRelease($store = null): ?string
+    {
+        return $this->configSplit->getCronDays($store);
+    }
 }

@@ -10,19 +10,19 @@ namespace Getnet\SplitExampleMagento\Plugin\Getnet\PaymentMagento\Gateway\Reques
 
 use Getnet\PaymentMagento\Gateway\Config\Config;
 use Getnet\PaymentMagento\Gateway\Data\Order\OrderAdapterFactory;
-use Getnet\PaymentMagento\Gateway\Request\BoletoPaymentDataRequest;
+use Getnet\PaymentMagento\Gateway\Request\RefundRequest;
 use Getnet\PaymentMagento\Gateway\SubjectReader;
 use Getnet\SplitExampleMagento\Helper\Data as SplitHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Sales\Api\Data\TransactionSearchResultInterfaceFactory as TransactionSearch;
 
 /**
- * Class Addtional Data Boleto Payment Data Request - add marketplace data in Transaction.
+ * Class Addtional Data for Refund - add marketplace data in Transaction.
  */
-class AddtionalDataBoletoPaymentDataRequest
+class AddtionalDataRefundRequest
 {
-    public const GUARANTOR_DOCUMENT_TYPE = 'guarantor_document_type';
-    public const GUARANTOR_DOCUMENT_NUMBER = 'guarantor_document_number';
-    public const GUARANTOR_NAME = 'guarantor_name';
+    public const MARKETPLACE_SUBSELLER_PAYMENTS = 'marketplace_subseller_payments';
 
     /**
      * @var SubjectReader
@@ -43,6 +43,17 @@ class AddtionalDataBoletoPaymentDataRequest
      * @var SplitHelper;
      */
     protected $splitHelper;
+
+    /**
+     * @var TransactionSearch
+     */
+    protected $transactionSearch;
+
+    /**
+     * @var Json
+     */
+    protected $json;
+
     /**
      * @var ScopeConfigInterface
      */
@@ -53,6 +64,8 @@ class AddtionalDataBoletoPaymentDataRequest
      * @param OrderAdapterFactory  $orderAdapterFactory
      * @param Config               $config
      * @param SplitHelper          $splitHelper
+     * @param TransactionSearch    $transactionSearch
+     * @param Json                 $json
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
@@ -60,27 +73,31 @@ class AddtionalDataBoletoPaymentDataRequest
         OrderAdapterFactory $orderAdapterFactory,
         Config $config,
         SplitHelper $splitHelper,
+        TransactionSearch $transactionSearch,
+        Json $json,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->subjectReader = $subjectReader;
         $this->orderAdapterFactory = $orderAdapterFactory;
         $this->config = $config;
         $this->splitHelper = $splitHelper;
+        $this->transactionSearch = $transactionSearch;
+        $this->json = $json;
         $this->scopeConfig = $scopeConfig;
     }
 
     /**
      * Around method Build.
      *
-     * @param BoletoPaymentDataRequest $subject
-     * @param \Closure                 $proceed
-     * @param array                    $buildSubject
+     * @param RefundRequest $subject
+     * @param \Closure      $proceed
+     * @param array         $buildSubject
      *
      * @return mixin
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundBuild(
-        BoletoPaymentDataRequest $subject,
+        RefundRequest $subject,
         \Closure $proceed,
         $buildSubject
     ) {
@@ -90,44 +107,27 @@ class AddtionalDataBoletoPaymentDataRequest
 
         $order = $paymentDO->getOrder();
 
-        $storeId = $order->getStoreId();
+        $orderId = $order->getId();
 
-        $items = $order->getItems();
+        $transaction = $this->transactionSearch->create()->addOrderIdFilter($orderId)->getFirstItem();
 
-        $availlable = false;
+        $sellersItems = $transaction->getOrder()->getPayment()->getAdditionalInformation('marketplace');
+        
+        $sellersItems = $this->json->unserialize($sellersItems);
+ 
+        if (is_array($sellersItems)) {
+            foreach ($sellersItems as $sellerId => $items) {
+                $sellers = ['subseller_id' => $sellerId];
+   
+                $sellerItems = ['order_items' => $items];
 
-        foreach ($items as $item) {
-            if ($item->getProduct()->getGetnetSubSellerId()) {
-                $availlable = true;
+                $amountSub = array_sum(array_column($sellersItems[$sellerId], 'amount'));
+
+                $subAmount = ['subseller_sales_amount' => $amountSub];
             }
+            $formart = array_merge_recursive($sellers, $subAmount, $sellerItems);
+            $result = array_merge($result, [self::MARKETPLACE_SUBSELLER_PAYMENTS => $formart]);
         }
-
-        if (!$availlable) {
-            return $result;
-        }
-
-        $typeDocument = 'CPF';
-
-        $name = $this->splitHelper->getAdditionalGuarantorName($storeId);
-
-        $document = $this->splitHelper->getAdditionalGuarantorNumber($storeId);
-
-        $document = preg_replace('/[^0-9]/', '', $document);
-
-        if (strlen($document) === 14) {
-            $typeDocument = 'CNPJ';
-        }
-
-        $addtionalData = [
-            self::GUARANTOR_DOCUMENT_TYPE   => $typeDocument,
-            self::GUARANTOR_DOCUMENT_NUMBER => $document,
-            self::GUARANTOR_NAME            => $name,
-        ];
-
-        $result[BoletoPaymentDataRequest::METHOD] = array_merge(
-            $result[BoletoPaymentDataRequest::METHOD],
-            $addtionalData
-        );
 
         return $result;
     }
