@@ -116,9 +116,6 @@ class AddtionalDataRefundRequest
         $sellersItems = $this->json->unserialize($sellersItems);
  
         if (is_array($sellersItems)) {
-            $items = [];
-            $seller = [];
-            $subAmount = [];
             foreach ($sellersItems as $sellerId => $items) {
                 $sellers = ['subseller_id' => $sellerId];
    

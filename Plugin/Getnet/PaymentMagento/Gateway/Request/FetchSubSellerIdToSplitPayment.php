@@ -92,6 +92,7 @@ class FetchSubSellerIdToSplitPayment
      * @param array                   $buildSubject
      *
      * @return mixin
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function aroundBuild(
         SplitPaymentDataRequest $subject,
