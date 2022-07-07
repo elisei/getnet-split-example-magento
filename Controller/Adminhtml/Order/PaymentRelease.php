@@ -114,7 +114,7 @@ class PaymentRelease extends Action
             /** @var $modelPaymentRelease modelPaymentRelease */
             $modelPaymentRelease = $this->modelPaymentRelease->createPaymentRelease($orderId, $date);
             if ($modelPaymentRelease->getSuccess()) {
-                $this->messageManager->addError("Sucesso");
+                $this->messageManager->addSuccess("Payment released");
             }
 
             if ($modelPaymentRelease->getMessage()) {
