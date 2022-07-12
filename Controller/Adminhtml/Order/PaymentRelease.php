@@ -8,15 +8,14 @@
 
 namespace Getnet\SplitExampleMagento\Controller\Adminhtml\Order;
 
-use Getnet\SplitExampleMagento\Helper\Data;
 use Getnet\PaymentMagento\Model\Console\Command\Marketplace\PaymentRelease as ModelPaymentRelease;
+use Getnet\SplitExampleMagento\Helper\Data;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Backend\Model\Session\Quote;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Message\ManagerInterface;
+use Magento\Framework\Serialize\Serializer\Json;
 
 /**
  * Class Payment Release - Generate Payment Release.
@@ -113,18 +112,19 @@ class PaymentRelease extends Action
      */
     public function execute()
     {
-        $orderId = (int)$this->getRequest()->getParam('order_id');
+        $orderId = (int) $this->getRequest()->getParam('order_id');
         $days = $this->helper->getDaysOfRelease();
         $days = $days ? $days : 1;
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $date = new \DateTime();
         $date->add(new \DateInterval('P'.$days.'D'));
         $date = $date->format('Y-m-d\TH:i:s\Z');
+
         try {
             /** @var $modelPaymentRelease modelPaymentRelease */
             $modelPaymentRelease = $this->modelPaymentRelease->createPaymentRelease($orderId, $date);
             if ($modelPaymentRelease->getSuccess()) {
-                $this->messageManager->addSuccess("Payment released");
+                $this->messageManager->addSuccess('Payment released');
             }
 
             if ($modelPaymentRelease->getMessage()) {
@@ -142,6 +142,7 @@ class PaymentRelease extends Action
         }
 
         $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+
         return $resultRedirect;
     }
 }

@@ -21,6 +21,7 @@ class SubSellerIdToOrderItem
      * Around Convert.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param ToOrderItem      $subject
      * @param \Closure         $proceed
      * @param Item|AddressItem $quoteItem

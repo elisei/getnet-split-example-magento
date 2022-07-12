@@ -87,6 +87,7 @@ class FetchSubSellerIdToSplitPayment
      * Around method Build.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param SplitPaymentDataRequest $subject
      * @param \Closure                $proceed
      * @param array                   $buildSubject
@@ -169,11 +170,9 @@ class FetchSubSellerIdToSplitPayment
 
             $result[SplitPaymentDataRequest::BLOCK_NAME_MARKETPLACE_SUBSELLER_PAYMENTS][] = [
                 SplitPaymentDataRequest::BLOCK_NAME_SUB_SELLER_ID          => $sellerId,
-                SplitPaymentDataRequest::BLOCK_NAME_SUBSELLER_SALES_AMOUNT =>
-                    $this->config->formatPrice($commissionAmount),
+                SplitPaymentDataRequest::BLOCK_NAME_SUBSELLER_SALES_AMOUNT => $this->config->formatPrice($commissionAmount),
                 SplitPaymentDataRequest::BLOCK_NAME_ORDER_ITEMS            => $products['product'],
             ];
-            
         }
 
         foreach ($result[SplitPaymentDataRequest::BLOCK_NAME_MARKETPLACE_SUBSELLER_PAYMENTS] as $sellers) {
@@ -285,8 +284,7 @@ class FetchSubSellerIdToSplitPayment
             SplitPaymentDataRequest::BLOCK_NAME_CURRENCY    => $order->getCurrencyCode(),
             SplitPaymentDataRequest::BLOCK_NAME_ID          => __('shipping-order-%1', $order->getOrderIncrementId()),
             SplitPaymentDataRequest::BLOCK_NAME_DESCRIPTION => __('Shipping for %1 products', $qtyOrderedBySeller),
-            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT  =>
-                ($rule['include_freight']) ? 0 : $this->config->formatPrice($priceShippingBySeller),
+            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT  => ($rule['include_freight']) ? 0 : $this->config->formatPrice($priceShippingBySeller),
         ];
 
         $shippingProduct['amount'][$sellerId] = $priceShippingBySeller;
@@ -325,8 +323,7 @@ class FetchSubSellerIdToSplitPayment
                 $installment,
                 $commissionAmount
             ),
-            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT =>
-                ($rule['include_interest']) ? 0 :  $this->config->formatPrice($amountInterest),
+            SplitPaymentDataRequest::BLOCK_NAME_TAX_AMOUNT => ($rule['include_interest']) ? 0 : $this->config->formatPrice($amountInterest),
         ];
 
         $amountInterestProduct['amount'][$sellerId] = $amountInterest;

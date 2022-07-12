@@ -5,6 +5,7 @@
  * @author    Bruno Elisei <brunoelisei@o2ti.com>
  * See LICENSE for license details.
  */
+
 namespace Getnet\SplitExampleMagento\Model;
 
 use Magento\Framework\Serialize\Serializer\Json;
@@ -33,17 +34,17 @@ class Config
     public const XML_PATH_GETNET_SPLIT_GUARANTOR_DOCUMENT = 'getnet_split/general/addtional_boleto/guarantor_document';
 
     /**
-     * Type Release
+     * Type Release.
      */
     public const XML_PATH_GETNET_SPLIT_TYPE_RELEASE = 'getnet_split/general/payment_release/type_release';
 
     /**
-     * Cron BY
+     * Cron BY.
      */
     public const XML_PATH_GETNET_SPLIT_CRON_BY = 'getnet_split/general/payment_release/cron_by';
 
     /**
-     * Release Days
+     * Release Days.
      */
     public const XML_PATH_GETNET_SPLIT_CRON_DAYS = 'getnet_split/general/payment_release/release_day';
 

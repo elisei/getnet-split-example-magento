@@ -8,8 +8,8 @@
 
 namespace Getnet\SplitExampleMagento\Cron;
 
-use Getnet\SplitExampleMagento\Helper\Data;
 use Getnet\PaymentMagento\Model\Console\Command\Marketplace\PaymentRelease as ModelPaymentRelease;
+use Getnet\SplitExampleMagento\Helper\Data;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Model\Order\InvoiceRepositoryFactory;
 use Psr\Log\LoggerInterface;
@@ -100,7 +100,7 @@ class ReleaseByInvoice
             ->addFilter('created_at', $dateFrom, 'gteq')
             ->addFilter('created_at', $dateTo, 'lteq')
             ->create();
-            
+
         $invoices = $this->invoiceRepository->create()->getList($searchCriteria);
 
         $days = $this->helper->getDaysOfRelease();

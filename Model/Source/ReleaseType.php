@@ -25,7 +25,7 @@ class ReleaseType implements ArrayInterface
     {
         return [
             'not_applicable' => __('Not Applicable'),
-            'cron' => __('Cron and Manual Release'),
+            'cron'           => __('Cron and Manual Release'),
             'manual_release' => __('Manual Release'),
         ];
     }

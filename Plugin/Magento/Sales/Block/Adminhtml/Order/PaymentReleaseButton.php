@@ -33,7 +33,7 @@ class PaymentReleaseButton
     /**
      * Before Convert.
      *
-     * @param View          $subject
+     * @param View $subject
      */
     public function beforeSetLayout(
         View $subject
@@ -47,9 +47,9 @@ class PaymentReleaseButton
             $subject->addButton(
                 'payment_release',
                 [
-                    'label' => __('Payment Release'),
+                    'label'   => __('Payment Release'),
                     'onclick' => "confirmSetLocation('{$message}', '{$url}')",
-                    'class' => 'reset',
+                    'class'   => 'reset',
                 ],
                 -1
             );

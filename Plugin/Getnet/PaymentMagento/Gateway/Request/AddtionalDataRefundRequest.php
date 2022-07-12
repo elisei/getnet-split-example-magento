@@ -112,13 +112,13 @@ class AddtionalDataRefundRequest
         $transaction = $this->transactionSearch->create()->addOrderIdFilter($orderId)->getFirstItem();
 
         $sellersItems = $transaction->getOrder()->getPayment()->getAdditionalInformation('marketplace');
-        
+
         $sellersItems = $this->json->unserialize($sellersItems);
- 
+
         if (is_array($sellersItems)) {
             foreach ($sellersItems as $sellerId => $items) {
                 $sellers = ['subseller_id' => $sellerId];
-   
+
                 $sellerItems = ['order_items' => $items];
 
                 $amountSub = array_sum(array_column($sellersItems[$sellerId], 'amount'));

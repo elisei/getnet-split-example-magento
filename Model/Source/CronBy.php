@@ -25,7 +25,7 @@ class CronBy implements ArrayInterface
     {
         return [
             'shipping' => __('Shipping'),
-            'invoice' => __('Invoice'),
+            'invoice'  => __('Invoice'),
         ];
     }
 }
