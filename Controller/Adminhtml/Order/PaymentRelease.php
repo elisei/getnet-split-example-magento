@@ -56,6 +56,16 @@ class PaymentRelease extends Action
     protected $messageManager;
 
     /**
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     */
+    protected $date;
+
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $timezone;
+
+    /**
      * @param Context                                              $context
      * @param ResultFactory                                        $resultResultFactory
      * @param Json                                                 $json
